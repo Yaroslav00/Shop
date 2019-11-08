@@ -1,6 +1,6 @@
 var current_page = 1;
-var records_per_page = 2;
-var records_number = 20;
+var records_per_page = 5;
+var records_number;
 var objJson = [
     { adName: "AdName 1"},
     { adName: "AdName 2"},
@@ -45,7 +45,7 @@ function changePage(page)
 
     listing_table.innerHTML = "";
 
-    for (var i = (page-1) * records_per_page; i < (page * records_per_page); i++) {
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
         listing_table.innerHTML += objJson[i].adName + "<br>";
     }
     page_span.innerHTML = page;
@@ -69,6 +69,14 @@ function numPages()
 }
 
 window.onload = function() {
+    $.ajax(
+        {
+            url: "localhost/api/v1/", 
+    success: function(result){
+        console.log(result);
+      }
+    }
+    );
     changePage(1);
     console.log(page);
 };

@@ -1,7 +1,7 @@
 from app import db
 import jwt
 from config import SECRET_KEY
-
+import datetime
 class Good(db.Model):
     __tablename__ = "goods"
     id = db.Column(db.Integer, primary_key=True)
@@ -19,13 +19,14 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
     email = db.Column(db.String(50), nullable=False)
-    def __init__(self, email, password, admin=False):
+    def __init__(self,name,  email, password, admin=False):
+        self.name= name
         self.email = email
         self.password = password
     
         self.admin = admin
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(user_id):
         
         try:
             payload = {
