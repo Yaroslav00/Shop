@@ -20,7 +20,7 @@ function prevPage()
         current_page--;
         changePage(current_page);
     }
-    console.log(page);
+    
 }
 
 function nextPage()
@@ -29,7 +29,7 @@ function nextPage()
         current_page++;
         changePage(current_page);
     }
-    console.log(page);
+    
 }
 
 function changePage(page)
@@ -68,15 +68,3 @@ function numPages()
     return Math.ceil(objJson.length / records_per_page);
 }
 
-window.onload = function() {
-    $.ajax(
-        {
-            url: "localhost/api/v1/", 
-    success: function(result){
-        console.log(result);
-      }
-    }
-    );
-    changePage(1);
-    console.log(page);
-};

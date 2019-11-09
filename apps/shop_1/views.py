@@ -21,8 +21,8 @@ class SignUp(Resource):
 
 class LogIn(Resource):
     def post(self):
-        email = request.email
-        password = request.password
+        email = request.form.email
+        password = request.form.password
         user = User.query.filter(email= email).one()
         if password == user.password:
             jwt_token = User.encode_auth_token(user.id)
@@ -34,15 +34,16 @@ class LogIn(Resource):
 class IsAuth(Resource):
     def get(self):
         print(request.args)
-        print(request.params)
+      
         token = request.args.get('token')
-        try:
-            user_id = User.decode_auth_token(token)
-            user = User.query.filter(id=user_id)
+        if token:
+            try:
+                user_id = User.decode_auth_token(token)
+                
+            except jwt.ExpiredSignatureError:
+                return jsonify(message=-1)
+            except jwt.InvalidSignatureError:
+                return jsonify(message=-1)
+            user = User.query.filter_by(id=user_id).first()
             return jsonify(message=0, name=user.name)
-
-
-        except jwt.ExpiredSignatureError:
-            return jsonify(message=-1)
-        except jwt.InvalidSignatureError:
-            return jsonify(message=-1)
+        return jsonify(message=-1)
