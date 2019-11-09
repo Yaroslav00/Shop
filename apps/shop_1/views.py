@@ -39,7 +39,7 @@ class IsAuth(Resource):
         if token:
             try:
                 user_id = User.decode_auth_token(token)
-                
+                print(user_id)
             except jwt.ExpiredSignatureError:
                 return jsonify(message=-1)
             except jwt.InvalidSignatureError:
