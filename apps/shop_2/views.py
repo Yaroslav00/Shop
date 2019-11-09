@@ -39,10 +39,10 @@ class IsAuth(Resource):
         try:
             user_id = User.decode_auth_token(token)
             user = User.query.filter(id=user_id)
-            return jsonify(message=0, name=user.name)
+            return jsonify(message="Valid token", name=user.name)
 
 
         except jwt.ExpiredSignatureError:
-            return jsonify(message=-1)
+            return jsonify(message="Token expired")
         except jwt.InvalidSignatureError:
-            return jsonify(message=-1)
+            return jsonify(message="Invalid token")
