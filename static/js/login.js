@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+    
     $("form").submit(function(event){
         event.preventDefault();
         var email = $("#email").val();
@@ -17,27 +18,29 @@ $(document).ready(function(){
         
         // Callback handler that will be called on success
         request.done(function (response){
+            console.log(response.token);
             email.innerHTML = "";
             password.innerHTML = "";
-            if (parseInt(response.message) == 0) {
-                accountRef.style.visibility = "visible";
-                contactusRef.style.visibility = "visible";
-                cartRef.style.visibility = "visible";
-                logoutRef.style.visibility= "visible";
-                greetingsRef.style.visibility = "visible";
-                loginRef.style.visibility = "hidden";
-                signupRef.style.visibility = "hidden";
-                greetingsRef.innerHTML = `Hi, ${localStorage.getItem('name')}`;
+            if (response.token != null) {
+                
+                
+                localStorage.setItem('token', response.token);
+                localStorage.setItem('name', response.name);
+                localStorage.setItem('admin', response.admin);
+                if(response.admin=='false')
+                {
+                    window.location.href='Account.html';
+                }
+                else{
+                    window.location.href='Admin.html';
+                }
+                
+                
     
             } else {
-                accountRef.style.visibility = "hidden";
-                contactusRef.style.visibility = "hidden";
-                cartRef.style.visibility = "hidden";
-                logoutRef.style.visibility= "hidden";
-                greetingsRef.style.visibility = "hidden";
-                loginRef.style.visibility = "visible";
-                signupRef.style.visibility = "visible";
-                greetingsRef.innerHTML = "";
+                Warning.style.visibility = "visible";
+                Warning.innerHTML = "Credentials are incorrect!";
+                
             }
           }
         

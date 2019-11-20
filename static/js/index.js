@@ -12,6 +12,7 @@ $(document).ready(function(){
     {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
+        localStorage.removeItem('admin');
         greetingsRef.innerHTML = "";
     }
     else{
@@ -62,6 +63,7 @@ $(document).ready(function(){
             signupRef.style.visibility = "visible";
             greetingsRef.innerHTML = "";
     }
+    
   
 });
 

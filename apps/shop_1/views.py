@@ -21,14 +21,16 @@ class SignUp(Resource):
 
 class LogIn(Resource):
     def post(self):
-        email = request.form.email
-        password = request.form.password
-        user = User.query.filter(email= email).one()
+        print(request.form)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = User.query.filter_by(email= email).first()
+        jwt_token = ""
         if password == user.password:
             jwt_token = User.encode_auth_token(user.id)
-        jwt_token = ""
+        
 
-        return  jsonify(token=jwt_token)
+        return  jsonify(token=jwt_token, name=user.name, admin=user.admin)
 
 
 class IsAuth(Resource):
@@ -45,5 +47,5 @@ class IsAuth(Resource):
             except jwt.InvalidSignatureError:
                 return jsonify(message=-1)
             user = User.query.filter_by(id=user_id).first()
-            return jsonify(message=0, name=user.name)
+            return jsonify(message=0, name=user.name,admin=user.admin)
         return jsonify(message=-1)

@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Magazik</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		
+	</head>
+	<body>
+		
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+			<a class="navbar-brand" href="index.html">Home</a>
+			<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="LogIn.html">Log In</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="SignUp.html">Sign Up</a>
+			</li>
+			<li class="nav-item">
+					<a class="nav-link" href="Account.html">Account</a>
+			</li>
+			<li class="nav-item">
+						<a class="nav-link" href="Cart.html">Cart</a>
+            </li>
+           
+			</ul>
+		</nav>
+		
+        
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>	
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/signup.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	<script type="text/javascript" charset="utf-8">
+    			var socket = io();
+    			socket.on('connect', function() {
+        		socket.emit('my event', {data: 'I\'m connected!'});
+    		});
+	</script>
+</html>
+
+
+
+
+
+
