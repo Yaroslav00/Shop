@@ -23,11 +23,9 @@ class User(db.Model):
         self.name= name
         self.email = email
         self.password = password
-    
         self.admin = admin
 
     def encode_auth_token(user_id):
-        
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=600),
@@ -54,7 +52,6 @@ class User(db.Model):
 
 class Cart(db.Model):
     __tablename__ = "carts"
-
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
         nullable=False)
@@ -69,8 +66,13 @@ class Cart(db.Model):
 class Interests(db.Model):
     __tablename__ = "interests"
     id = db.Column(db.Integer, primary_key=True)
-
-
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        nullable=False)
+    good_id =  db.Column(db.Integer, db.ForeignKey('goods.id'),
+        nullable=False)
+    def __init__(self, user_id, good_id):
+        self.user_id = user_id
+        self.good_id = good_id
     def __repr__(self):
         return "User_id: {0}".format(user_id)
 

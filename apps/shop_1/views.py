@@ -1,23 +1,20 @@
-from app import api,db
+from app import api,db,mail
 from models import *
 from flask_restful import Resource, Api
 from flask import jsonify
 from flask import request
+import jwt
 
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
 
 class SignUp(Resource):
-    def post(self):
-        print(request.form)
-        
+    def post(self):        
         user = User(**request.form)
         db.session.add(user)
         db.session.commit()
         jwt_token = User.encode_auth_token(user.id)
         print(jwt_token)
         return  jsonify(token=jwt_token, name=user.name)
+
 
 class LogIn(Resource):
     def post(self):
@@ -29,23 +26,15 @@ class LogIn(Resource):
         if password == user.password:
             jwt_token = User.encode_auth_token(user.id)
         
-
         return  jsonify(token=jwt_token, name=user.name, admin=user.admin)
 
 
-class IsAuth(Resource):
+class Mails(Resource):
     def get(self):
-        print(request.args)
-      
-        token = request.args.get('token')
-        if token:
-            try:
-                user_id = User.decode_auth_token(token)
-                print(user_id)
-            except jwt.ExpiredSignatureError:
-                return jsonify(message=-1)
-            except jwt.InvalidSignatureError:
-                return jsonify(message=-1)
-            user = User.query.filter_by(id=user_id).first()
-            return jsonify(message=0, name=user.name,admin=user.admin)
-        return jsonify(message=-1)
+        mail.send_message(
+            'Send Mail tutorial!',
+            sender='yarik.voytovich@gmail.com',
+            recipients=['voytovichyaroslav1@gmail.com'],
+            body="Congratulations you've succeeded!"
+        )
+        return 'Mail sent'
